@@ -8,6 +8,6 @@ package Model;
  *
  * @author adrian
  */
-public class Bebida {
+public class Bebida extends Producte {
     
 }
