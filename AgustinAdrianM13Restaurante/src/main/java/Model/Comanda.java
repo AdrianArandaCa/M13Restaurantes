@@ -4,10 +4,52 @@
  */
 package Model;
 
+import java.util.List;
+
 /**
  *
  * @author adrian
  */
 public class Comanda {
+    int codi;
+    Taula taula;
+    List<Producte> productes;
+
+    public Comanda(int codi, Taula taula) {
+        this.codi = codi;
+        this.taula = taula;
+    }
+
+    public int getCodi() {
+        return codi;
+    }
+
+    public void setCodi(int codi) {
+        this.codi = codi;
+    }
+
+    public Taula getTaula() {
+        return taula;
+    }
+
+    public void setTaula(Taula taula) {
+        this.taula = taula;
+    }
+
+    public List<Producte> getProductes() {
+        return productes;
+    }
+
+    public void setProductes(List<Producte> productes) {
+        this.productes = productes;
+    }
+
+    @Override
+    public String toString() {
+        return "Comanda{" + "codi=" + codi + ", taula=" + taula + ", productes=" + productes + '}';
+    }
+
+    
+    
     
 }
