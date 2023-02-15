@@ -6,7 +6,10 @@ package Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 
 /**
  * FXML Controller class
@@ -22,5 +25,45 @@ public class ReservaController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+    
+     @FXML
+    private Button btnAlta;
+
+    @FXML
+    private Button btnArribadaClients;
+
+    @FXML
+    private Button btnConsulta;
+
+    @FXML
+    private Button btnEsborrar;
+
+    @FXML
+    private Button btnModificacio;
+
+    @FXML
+    void btnAltaClick(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btnArribadaClick(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btnConsultaClick(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btnEsborrarClick(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btnModificacioClick(ActionEvent event) {
+
+    }
     
 }

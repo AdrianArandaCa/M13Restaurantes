@@ -7,3 +7,24 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Author     : adrian
 */
 
+.panel {
+    -fx-background-color: #FFEBCD;
+    
+}
+
+.panelreservacomanda {
+    -fx-background-color: #DEB887;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+}
+
+.butonaccedir {
+     -fx-background-color: #DEB887;
+     -fx-text-fill: #000000;
+    -fx-font: Arial;
+    -fx-font-size: 15pt;
+}
+
+.panelreserva {
+    -fx-background-color: #DEB887;
+}
