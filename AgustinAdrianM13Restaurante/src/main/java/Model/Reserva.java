@@ -4,8 +4,6 @@
  */
 package Model;
 
-import java.util.Date;
-
 /**
  *
  * @author adrian
@@ -15,16 +13,18 @@ public class Reserva {
     Taula t;
     String nomClient;
     int telefon;
-    Date dia;
+    String dia;
+    String hora;
     int npersones;
 
-    public Reserva(int numReserva, Taula t, String nomClient, int telf, Date data, int quantPersones) {
+    public Reserva(int numReserva, Taula t, String nomClient, int telf, String data, int quantPersones,String hora) {
         this.idReserva = numReserva;
         this.t = t;
         this.nomClient = nomClient;
         this.telefon = telf;
         this.dia = data;
         this.npersones = quantPersones;
+        this.hora = hora;
     }
 
     public int getNumReserva() {
@@ -59,11 +59,11 @@ public class Reserva {
         this.telefon = telf;
     }
 
-    public Date getData() {
+    public String getData() {
         return dia;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.dia = data;
     }
 
@@ -75,10 +75,16 @@ public class Reserva {
         this.npersones = quantPersones;
     }
 
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
+    }
+
     @Override
     public String toString() {
-        return "Reserva{" + "numReserva=" + idReserva + ", t=" + t + ", nomClient=" + nomClient + ", telf=" + telefon + ", data=" + dia + ", quantPersones=" + npersones + '}';
+        return "Reserva{" + "idReserva=" + idReserva + ", t=" + t + ", nomClient=" + nomClient + ", telefon=" + telefon + ", dia=" + dia + ", hora=" + hora + ", npersones=" + npersones + '}';
     }
-    
-    
 }
