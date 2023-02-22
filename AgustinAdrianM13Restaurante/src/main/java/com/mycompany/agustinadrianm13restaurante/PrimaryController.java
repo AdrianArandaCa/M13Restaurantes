@@ -34,7 +34,7 @@ public class PrimaryController {
     void clickBtnReserves(ActionEvent event)  {
         
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Reserva.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Reserva.fxml"));
             Parent root = loader.load();
             
             ReservaController controllerReserva = loader.getController();

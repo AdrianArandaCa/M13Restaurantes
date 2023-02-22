@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="709.0" prefWidth="1027.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ReservaController">
+   <top>
+      <Pane prefHeight="112.0" prefWidth="1027.0" styleClass="panelreserva" stylesheets="@../com/mycompany/agustinadrianm13restaurante/estils.css" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" layoutX="214.0" layoutY="29.0" prefWidth="600.0" text="Gestió de Reserves" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="45.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </top>
+   <left>
+      <Pane prefHeight="597.0" prefWidth="175.0" styleClass="panel" stylesheets="@../com/mycompany/agustinadrianm13restaurante/estils.css" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER" layoutY="-1.0" prefHeight="376.0" prefWidth="177.0" spacing="30.0">
+               <children>
+                  <Button fx:id="btnAlta" mnemonicParsing="false" onAction="#btnAltaClick" prefHeight="30.0" prefWidth="100.0" text="Alta" />
+                  <Button fx:id="btnModificacio" mnemonicParsing="false" onAction="#btnModificacioClick" prefHeight="30.0" prefWidth="100.0" text="Modificació" />
+                  <Button fx:id="btnArribadaClients" mnemonicParsing="false" onAction="#btnArribadaClick" prefHeight="30.0" prefWidth="100.0" text="Arribada" />
+                  <Button fx:id="btnConsulta" mnemonicParsing="false" onAction="#btnConsultaClick" prefHeight="30.0" prefWidth="100.0" text="Consulta" />
+                  <Button fx:id="btnEsborrar" mnemonicParsing="false" onAction="#btnEsborrarClick" prefHeight="30.0" prefWidth="100.0" text="Esborrar" />
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+   </left>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="tableViewReserves" prefHeight="597.0" prefWidth="852.0" styleClass="panel" stylesheets="@../com/mycompany/agustinadrianm13restaurante/estils.css">
+              <columns>
+                <TableColumn fx:id="tableColumnIdReserva" prefWidth="149.0" text="IdReserva" />
+                <TableColumn fx:id="tableColumnDia" prefWidth="152.0" text="Dia" />
+                  <TableColumn fx:id="tableColumnHora" minWidth="0.0" prefWidth="103.0" text="Hora" />
+                  <TableColumn fx:id="tableColumnNpersonas" minWidth="5.0" prefWidth="147.0" text="Nº Personas" />
+                  <TableColumn fx:id="tableColumnIdTaula" minWidth="0.0" prefWidth="125.0" text="IdTaula" />
+                  <TableColumn fx:id="tableColumnNomClient" minWidth="0.0" prefWidth="175.0" text="Nom Client" />
+              </columns>
+            </TableView>
+         </children></Pane>
+   </center>
+</BorderPane>

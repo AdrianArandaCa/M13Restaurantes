@@ -10,6 +10,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
 /**
  * FXML Controller class
@@ -18,12 +20,29 @@ import javafx.scene.control.Button;
  */
 public class ReservaController implements Initializable {
 
+    @FXML
+    private TableView<?> tableViewReserves;
+    @FXML
+    private TableColumn<?, ?> tableColumnIdReserva;
+    
+    @FXML
+    private TableColumn<?, ?> tableColumnDia;
+    @FXML
+    private TableColumn<?, ?> tableColumnHora;
+    @FXML
+    private TableColumn<?, ?> tableColumnNpersonas;
+    @FXML
+    private TableColumn<?, ?> tableColumnIdTaula;
+    @FXML
+    private TableColumn<?, ?> tableColumnNomClient;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        tableColumnIdReserva.getStyleClass().add("name-column");
     }    
     
      @FXML
