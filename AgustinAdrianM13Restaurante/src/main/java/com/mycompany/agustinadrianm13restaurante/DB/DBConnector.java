@@ -8,15 +8,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
 /**
  *
  * @author adrian
  */
 public class DBConnector {
     public static Connection getConnection() throws SQLException{
-        String url = "jdbc:mysql://localhost:3306/empresa?serverTimezone=UTC";
-        String usu = "root";
-        String pw = "KufrT4_lO9A";
+        String url = "jdbc:mysql://localhost:3306/Restaurant?serverTimezone=UTC";
+        String usu = "adrian";
+        String pw = "adrian";
         Connection con = DriverManager.getConnection(url,usu,pw);
         return con;
     }
