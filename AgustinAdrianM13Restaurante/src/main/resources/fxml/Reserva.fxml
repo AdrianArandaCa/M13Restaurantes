@@ -29,8 +29,8 @@
                   <Button fx:id="btnAlta" mnemonicParsing="false" onAction="#btnAltaClick" prefHeight="30.0" prefWidth="100.0" text="Alta" />
                   <Button fx:id="btnModificacio" mnemonicParsing="false" onAction="#btnModificacioClick" prefHeight="30.0" prefWidth="100.0" text="Modificació" />
                   <Button fx:id="btnArribadaClients" mnemonicParsing="false" onAction="#btnArribadaClick" prefHeight="30.0" prefWidth="100.0" text="Arribada" />
-                  <Button fx:id="btnConsulta" mnemonicParsing="false" onAction="#btnConsultaClick" prefHeight="30.0" prefWidth="100.0" text="Consulta" />
                   <Button fx:id="btnEsborrar" mnemonicParsing="false" onAction="#btnEsborrarClick" prefHeight="30.0" prefWidth="100.0" text="Esborrar" />
+                  <Button fx:id="btnAlta1" mnemonicParsing="false" onAction="#btnAltaClick" prefHeight="30.0" prefWidth="100.0" text="Prova" />
                </children>
             </VBox>
          </children>
@@ -39,14 +39,14 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="tableViewReserves" prefHeight="597.0" prefWidth="852.0" styleClass="panel" stylesheets="@../com/mycompany/agustinadrianm13restaurante/estils.css">
+            <TableView fx:id="tableViewReserves" layoutX="15.0" layoutY="14.0" prefHeight="564.0" prefWidth="810.0">
               <columns>
                 <TableColumn fx:id="tableColumnIdReserva" prefWidth="149.0" text="IdReserva" />
-                <TableColumn fx:id="tableColumnDia" prefWidth="152.0" text="Dia" />
-                  <TableColumn fx:id="tableColumnHora" minWidth="0.0" prefWidth="103.0" text="Hora" />
+                <TableColumn fx:id="tableColumnDia" prefWidth="135.0" text="Dia" />
+                  <TableColumn fx:id="tableColumnHora" minWidth="0.0" prefWidth="120.0" text="Hora" />
                   <TableColumn fx:id="tableColumnNpersonas" minWidth="5.0" prefWidth="147.0" text="Nº Personas" />
                   <TableColumn fx:id="tableColumnIdTaula" minWidth="0.0" prefWidth="125.0" text="IdTaula" />
-                  <TableColumn fx:id="tableColumnNomClient" minWidth="0.0" prefWidth="175.0" text="Nom Client" />
+                  <TableColumn fx:id="tableColumnNomClient" minWidth="0.0" prefWidth="133.0" text="Nom Client" />
               </columns>
             </TableView>
          </children></Pane>

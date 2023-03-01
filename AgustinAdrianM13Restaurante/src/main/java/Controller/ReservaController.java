@@ -42,7 +42,6 @@ public class ReservaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        tableColumnIdReserva.getStyleClass().add("name-column");
     }    
     
      @FXML
@@ -51,8 +50,6 @@ public class ReservaController implements Initializable {
     @FXML
     private Button btnArribadaClients;
 
-    @FXML
-    private Button btnConsulta;
 
     @FXML
     private Button btnEsborrar;
@@ -70,10 +67,6 @@ public class ReservaController implements Initializable {
 
     }
 
-    @FXML
-    void btnConsultaClick(ActionEvent event) {
-
-    }
 
     @FXML
     void btnEsborrarClick(ActionEvent event) {
