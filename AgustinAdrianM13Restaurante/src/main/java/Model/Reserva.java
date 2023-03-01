@@ -10,14 +10,14 @@ package Model;
  */
 public class Reserva {
     int idReserva;
-    Taula t;
+    int t;
     String nomClient;
     int telefon;
     String dia;
     String hora;
     int npersones;
 
-    public Reserva(int numReserva, Taula t, String nomClient, int telf, String data, int quantPersones,String hora) {
+    public Reserva(int numReserva, int t, String nomClient, int telf, String data, int quantPersones,String hora) {
         this.idReserva = numReserva;
         this.t = t;
         this.nomClient = nomClient;
@@ -26,7 +26,7 @@ public class Reserva {
         this.npersones = quantPersones;
         this.hora = hora;
     }
-
+    
     public int getNumReserva() {
         return idReserva;
     }
@@ -35,11 +35,11 @@ public class Reserva {
         this.idReserva = numReserva;
     }
 
-    public Taula getT() {
+    public int getT() {
         return t;
     }
 
-    public void setT(Taula t) {
+    public void setT(int t) {
         this.t = t;
     }
 
