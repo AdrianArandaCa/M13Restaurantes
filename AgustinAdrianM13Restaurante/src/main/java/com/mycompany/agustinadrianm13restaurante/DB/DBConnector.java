@@ -15,7 +15,8 @@ import java.sql.SQLException;
  */
 public class DBConnector {
     public static Connection getConnection() throws SQLException{
-        String url = "jdbc:mysql://localhost:3306/Restaurant?serverTimezone=UTC";
+        //localhost:3306
+        String url = "jdbc:mysql://172.16.24.25/Restaurant?serverTimezone=UTC";
         String usu = "adrian";
         String pw = "adrian";
         Connection con = DriverManager.getConnection(url,usu,pw);

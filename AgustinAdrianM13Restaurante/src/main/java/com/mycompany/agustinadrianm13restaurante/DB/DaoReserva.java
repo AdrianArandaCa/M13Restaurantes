@@ -92,20 +92,20 @@ public class DaoReserva {
         ArrayList<Reserva> llista = new ArrayList<Reserva>();
         // Obrim la connexió
         Connection con = DBConnector.getConnection();
-        String laSQL = "Select * from Reserva order by idReservas";
+        String laSQL = "Select * from Reserva order by idReserva";
         // Executar la consulta.
         ResultSet rs = con.createStatement().executeQuery(laSQL);
-
+ 
         while (rs.next()) {
             String data = Utils.formatDateToTable(rs.getString("dia"));
             llista.add(
                     new Reserva(rs.getInt("idReserva"),
+                            rs.getString("dia"),
+                            rs.getString("hora"),
+                            rs.getInt("npersones"),
                             rs.getInt("idTaula"),
                             rs.getString("nomclient"),
-                            rs.getInt("telefon"),
-                            data,
-                            rs.getInt("npersones"),
-                            rs.getString("hora")
+                            rs.getInt("telefon")
                     )
             );
         }

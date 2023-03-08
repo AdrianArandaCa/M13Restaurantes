@@ -26,11 +26,9 @@
          <children>
             <VBox alignment="CENTER" layoutY="-1.0" prefHeight="376.0" prefWidth="177.0" spacing="30.0">
                <children>
-                  <Button fx:id="btnAlta" mnemonicParsing="false" onAction="#btnAltaClick" prefHeight="30.0" prefWidth="100.0" text="Alta" />
+                  <Button fx:id="btnAlta" mnemonicParsing="false" onAction="#btnAltaClick" prefHeight="30.0" prefWidth="100.0" styleClass="buttonTop" stylesheets="@../com/mycompany/agustinadrianm13restaurante/estils.css" text="Alta" />
                   <Button fx:id="btnModificacio" mnemonicParsing="false" onAction="#btnModificacioClick" prefHeight="30.0" prefWidth="100.0" text="Modificació" />
-                  <Button fx:id="btnArribadaClients" mnemonicParsing="false" onAction="#btnArribadaClick" prefHeight="30.0" prefWidth="100.0" text="Arribada" />
                   <Button fx:id="btnEsborrar" mnemonicParsing="false" onAction="#btnEsborrarClick" prefHeight="30.0" prefWidth="100.0" text="Esborrar" />
-                  <Button fx:id="btnAlta1" mnemonicParsing="false" onAction="#btnAltaClick" prefHeight="30.0" prefWidth="100.0" text="Prova" />
                </children>
             </VBox>
          </children>

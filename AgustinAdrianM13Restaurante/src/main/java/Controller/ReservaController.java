@@ -7,7 +7,7 @@ package Controller;
 import Model.Reserva;
 import Model.Utils;
 import com.mycompany.agustinadrianm13restaurante.DB.DaoReserva;
-import com.mycompany.agustinadrianm13restaurante.DB.ReservaTV;
+import Model.ReservaTV;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -83,18 +83,20 @@ public class ReservaController implements Initializable {
         
         try {
             ArrayList<Reserva> reserves = dao.llistaTots();
-            
+
             // Omplim l'observableList
+         
             for(Reserva reserva : reserves){
-                ReservaTV rva = new ReservaTV(
-                        reserva.getNumReserva(),
-                        reserva.getT(),
-                        reserva.getNomClient(),
-                        reserva.getTelf(),
-                        Utils.formatDateToTable(reserva.getData()),
-                        reserva.getQuantPersones(),
-                        reserva.getHora()
-                );
+                ReservaTV rva = new ReservaTV();
+                rva.setNumReserva(reserva.getNumReserva());
+                rva.setNom(reserva.getT());
+                rva.setNomClient(reserva.getNomClient());
+                rva.setTelf(reserva.getTelf());
+                rva.setData(reserva.getData());
+                rva.setQuantPersones(reserva.getQuantPersones());
+                rva.setHora(reserva.getHora());
+                        
+                
                 
                 reservestv.add(rva);
             }

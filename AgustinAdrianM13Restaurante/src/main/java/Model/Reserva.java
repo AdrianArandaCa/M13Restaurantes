@@ -10,22 +10,26 @@ package Model;
  */
 public class Reserva {
     int idReserva;
+    String dia;
+    String hora;
+        int npersones;
     int t;
     String nomClient;
     int telefon;
-    String dia;
-    String hora;
-    int npersones;
 
-    public Reserva(int numReserva, int t, String nomClient, int telf, String data, int quantPersones,String hora) {
-        this.idReserva = numReserva;
+    public Reserva(int idReserva, String dia, String hora, int npersones, int t, String nomClient, int telefon) {
+        this.idReserva = idReserva;
+        this.dia = dia;
+        this.hora = hora;
+        this.npersones = npersones;
         this.t = t;
         this.nomClient = nomClient;
-        this.telefon = telf;
-        this.dia = data;
-        this.npersones = quantPersones;
-        this.hora = hora;
+        this.telefon = telefon;
     }
+    
+
+
+   
     
     public int getNumReserva() {
         return idReserva;

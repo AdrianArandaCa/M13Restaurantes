@@ -9,4 +9,6 @@ module com.mycompany.agustinadrianm13restaurante {
     
     opens Controller to javafx.fxml;
     exports Controller;
+    
+     opens Model to javafx.base;
 }
