@@ -33,7 +33,7 @@ public class ReservaTV {
 
     public ReservaTV() {
     }
-
+    
     public int getNumReserva(){
         return numReserva.get();
     }
@@ -46,11 +46,11 @@ public class ReservaTV {
         return t.get();
     }
 
-    public void setNom(int t) {
+    public void setT(int t) {
         this.t.set(t);
     }
 
-    public String getnomClient() {
+    public String getNomclient() {
         return nomClient.get();
     }
 

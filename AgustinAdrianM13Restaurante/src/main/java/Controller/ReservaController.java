@@ -34,20 +34,19 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class ReservaController implements Initializable {
 
     @FXML
-    private TableView<ReservaTV> tableViewReserves;
+    private TableView<Reserva> tableViewReserves;
     @FXML
-    private TableColumn<ReservaTV, SimpleIntegerProperty> tableColumnIdReserva;
+    private TableColumn<Reserva, Integer> tableColumnIdReserva;
     
     @FXML
-    private TableColumn<ReservaTV, SimpleStringProperty> tableColumnDia;
+    private TableColumn<Reserva, String> tableColumnDia;
     @FXML
-    private TableColumn<ReservaTV, SimpleStringProperty> tableColumnHora;
+    private TableColumn<Reserva, String> tableColumnHora;
     @FXML
-    private TableColumn<ReservaTV, SimpleIntegerProperty> tableColumnNpersonas;
+    private TableColumn<Reserva, Integer> tableColumnNpersonas;
     @FXML
-    private TableColumn<ReservaTV, SimpleIntegerProperty> tableColumnIdTaula;
-    @FXML
-    private TableColumn<ReservaTV, SimpleStringProperty> tableColumnNomClient;    
+    private TableColumn<Reserva, Integer> tableColumnIdTaula;
+     
     /*@FXML
     private TableColumn<ReservaTV, SimpleStringProperty> tableColumnTelefon;*/
 
@@ -60,18 +59,20 @@ public class ReservaController implements Initializable {
     private SimpleIntegerProperty telf= new SimpleIntegerProperty();
 
      */
-    ObservableList<ReservaTV> reservestv;
+    ObservableList<Reserva> reservestv;
     ReservaTV reservatv;
-    @Override
+    @FXML
+    private TableColumn<ReservaTV, SimpleStringProperty> tableColumnNomClient;
     
+    @Override
     public void initialize(URL url, ResourceBundle rb) {
-        tableColumnIdReserva.setCellValueFactory(new PropertyValueFactory<>("numReserva"));
+         tableColumnIdReserva.setCellValueFactory(new PropertyValueFactory<>("numReserva"));
+        tableColumnIdTaula.setCellValueFactory(new PropertyValueFactory<>("t"));
+        tableColumnNomClient.setCellValueFactory(new PropertyValueFactory<>("nomClient"));
+       // tableColumnTelefon.setCellValueFactory(new PropertyValueFactory<>("telf"));
         tableColumnDia.setCellValueFactory(new PropertyValueFactory<>("data"));
-        tableColumnHora.setCellValueFactory(new PropertyValueFactory<>("hora"));
         tableColumnNpersonas.setCellValueFactory(new PropertyValueFactory<>("quantPersones"));
-        tableColumnIdTaula.setCellValueFactory(new PropertyValueFactory<>("t"));        
-        tableColumnNomClient.setCellValueFactory(new PropertyValueFactory<>("nomClient"));        
-        /*tableColumnTelefon.setCellValueFactory(new PropertyValueFactory<>("telf"));*/
+        tableColumnHora.setCellValueFactory(new PropertyValueFactory<>("hora"));
 
 
         
@@ -85,24 +86,19 @@ public class ReservaController implements Initializable {
             ArrayList<Reserva> reserves = dao.llistaTots();
 
             // Omplim l'observableList
-         
             for(Reserva reserva : reserves){
-                ReservaTV rva = new ReservaTV();
-                rva.setNumReserva(reserva.getNumReserva());
-                rva.setNom(reserva.getT());
-                rva.setNomClient(reserva.getNomClient());
-                rva.setTelf(reserva.getTelf());
-                rva.setData(reserva.getData());
-                rva.setQuantPersones(reserva.getQuantPersones());
-                rva.setHora(reserva.getHora());
+                Reserva rva = new Reserva(reserva.getNumReserva(),reserva.getData(),
+                        reserva.getHora(),reserva.getQuantPersones(),reserva.getT(),
+                        reserva.getNomClient(),reserva.getTelf());
                         
                 
-                
+                System.out.println("NOM DEL CLIENT : "+reserva.getNomClient());
                 reservestv.add(rva);
             }
             
             //Assignar l'observableList a la taula
             tableViewReserves.setItems(reservestv);
+            
         
         } catch (SQLException ex) {
             //Logger.getLogger(SecondaryController.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,8 +108,6 @@ public class ReservaController implements Initializable {
      @FXML
     private Button btnAlta;
 
-    @FXML
-    private Button btnArribadaClients;
 
 
     @FXML
@@ -127,7 +121,6 @@ public class ReservaController implements Initializable {
 
     }
 
-    @FXML
     void btnArribadaClick(ActionEvent event) {
 
     }

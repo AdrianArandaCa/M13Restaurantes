@@ -44,7 +44,7 @@
                   <TableColumn fx:id="tableColumnHora" minWidth="0.0" prefWidth="120.0" text="Hora" />
                   <TableColumn fx:id="tableColumnNpersonas" minWidth="5.0" prefWidth="147.0" text="Nº Personas" />
                   <TableColumn fx:id="tableColumnIdTaula" minWidth="0.0" prefWidth="125.0" text="IdTaula" />
-                  <TableColumn fx:id="tableColumnNomClient" minWidth="0.0" prefWidth="133.0" text="Nom Client" />
+                  <TableColumn fx:id="tableColumnNomClient" prefWidth="133.0" text="Nom Client" />
               </columns>
             </TableView>
          </children></Pane>
