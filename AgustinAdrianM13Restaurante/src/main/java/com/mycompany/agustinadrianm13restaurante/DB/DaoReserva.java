@@ -13,6 +13,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Date;
+import java.text.ParseException;
+
+
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,29 +27,38 @@ import java.sql.Date;
 public class DaoReserva {
 
     public static int afegirReserva(Reserva reserva) throws SQLException {
-        // Fer connexió
-        Connection con = DBConnector.getConnection();
-        // Redactar la SQL
-        String laSQL = "insert into Reserva (dia, hora, npersones, idTaula, nomclient, telefon) values (?,?,?,?,?,?)";
-        // Preparar la SQL
-
-        PreparedStatement reservaEntrant = con.prepareStatement(laSQL);
-        String data = Utils.formatDateToBD(reserva.getData());
-        reservaEntrant.setString(1, data);
-        reservaEntrant.setString(2, reserva.getHora());
-        reservaEntrant.setInt(3, reserva.getQuantPersones());
-        reservaEntrant.setInt(4, reserva.getT());
-        reservaEntrant.setString(5, reserva.getNomClient());
-        reservaEntrant.setInt(6, reserva.getTelf());
-
-        // Executar la sentència. ExecuteUpdate => insert, delete, update.
-        // retorn = número de fileres afectades.
-        int retorn = reservaEntrant.executeUpdate();
-
-        // Tancar connexió
-        con.close();
-        // Tornar número de fileres afectades.
-        return retorn;
+        try {
+            // Fer connexió
+            Connection con = DBConnector.getConnection();
+            // Redactar la SQL
+            String laSQL = "insert into Reserva (dia, hora, npersones, idTaula, nomclient, telefon) values (?,?,?,?,?,?)";
+            // Preparar la SQL
+            
+            PreparedStatement reservaEntrant = con.prepareStatement(laSQL);
+            //String data = Utils.formatDateToBD(reserva.getData());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date date = formatter.parse(reserva.getData().toString());
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            
+            reservaEntrant.setDate(1, sqlDate);
+            reservaEntrant.setString(2, reserva.getHora());
+            reservaEntrant.setInt(3, reserva.getQuantPersones());
+            reservaEntrant.setInt(4, reserva.getT());
+            reservaEntrant.setString(5, reserva.getNomClient());
+            reservaEntrant.setInt(6, reserva.getTelf());
+            
+            // Executar la sentència. ExecuteUpdate => insert, delete, update.
+            // retorn = número de fileres afectades.
+            int retorn = reservaEntrant.executeUpdate();
+            
+            // Tancar connexió
+            con.close();
+            // Tornar número de fileres afectades.
+            return retorn;
+        } catch (ParseException ex) {
+            Logger.getLogger(DaoReserva.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
     public static int esborrarReserva(int codi) throws SQLException {
