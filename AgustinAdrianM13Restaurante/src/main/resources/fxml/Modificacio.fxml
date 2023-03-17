@@ -30,6 +30,8 @@
       <Label fx:id="labelNomClient" alignment="CENTER" contentDisplay="CENTER" layoutX="28.0" layoutY="363.0" prefHeight="22.0" prefWidth="170.0" text="Nom del client" textAlignment="CENTER" />
       <TextField fx:id="txtNomClient" layoutX="28.0" layoutY="385.0" />
       <Button fx:id="btnModificarReserva" layoutX="113.0" layoutY="505.0" mnemonicParsing="false" onAction="#modificarReservaClick" prefHeight="24.0" prefWidth="160.0" text="Modificar Reserva" />
-      <CheckBox fx:id="checkBoxArribada" layoutX="40.0" layoutY="432.0" mnemonicParsing="false" text="Arribada del Client" />
+      <CheckBox fx:id="checkBoxArribada" layoutX="225.0" layoutY="435.0" mnemonicParsing="false" text="Arribada del Client" />
+      <TextField fx:id="txtNumeroTelefono" layoutX="28.0" layoutY="453.0" />
+      <Label fx:id="labelNumeroTelefono" alignment="CENTER" contentDisplay="CENTER" layoutX="28.0" layoutY="424.0" prefHeight="22.0" prefWidth="170.0" text="Teléfon" textAlignment="CENTER" />
    </children>
 </Pane>

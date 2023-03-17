@@ -79,28 +79,37 @@ public class DaoReserva {
     }
 
     public static int modificarReserva(Reserva reserva) throws SQLException {
-        //Obrir connexió
-        Connection con = DBConnector.getConnection();
-
-        // Preparar la SQL
-        String laSQL = "update Reserva set dia=?, hora=?, npersones=?, idTaula=?, nomclient=?, telefon=? where idReserva=?";
-        String data = Utils.formatDateToBD(reserva.getData());
-        PreparedStatement prestat = con.prepareStatement(laSQL);
-        prestat.setString(1, data);
-        prestat.setString(2, reserva.getHora());
-        prestat.setInt(3, reserva.getQuantPersones());
-        prestat.setInt(4, reserva.getT());
-        prestat.setString(5, reserva.getNomClient());
-        prestat.setInt(6, reserva.getTelf());
-        prestat.setInt(7, reserva.getNumReserva());
-
-        // Executar la sentència
-        int retorn = prestat.executeUpdate();
-
-        // Tancar la connexió
-        con.close();
-
-        return retorn;
+        try {
+            //Obrir connexió
+            Connection con = DBConnector.getConnection();
+            
+            // Preparar la SQL
+            String laSQL = "update Reserva set dia=?, hora=?, npersones=?, idTaula=?, nomclient=?, telefon=? where idReserva=?";
+            // String data = Utils.formatDateToBD(reserva.getData());
+            PreparedStatement prestat = con.prepareStatement(laSQL);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date date = formatter.parse(reserva.getData().toString());
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            
+            prestat.setDate(1, sqlDate);
+            prestat.setString(2, reserva.getHora());
+            prestat.setInt(3, reserva.getQuantPersones());
+            prestat.setInt(4, reserva.getT());
+            prestat.setString(5, reserva.getNomClient());
+            prestat.setInt(6, reserva.getTelf());
+            prestat.setInt(7, reserva.getNumReserva());
+            
+            // Executar la sentència
+            int retorn = prestat.executeUpdate();
+            
+            // Tancar la connexió
+            con.close();
+            
+            return retorn;
+        } catch (ParseException ex) {
+            Logger.getLogger(DaoReserva.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
     public static ArrayList<Reserva> llistaTots() throws SQLException {
@@ -126,5 +135,20 @@ public class DaoReserva {
         }
         con.close();
         return llista;
+    }
+     public static ArrayList<Integer> llistaTaules() throws SQLException {
+        ArrayList<Integer> llistaTaules = new ArrayList<Integer>();
+        // Obrim la connexió
+        Connection con = DBConnector.getConnection();
+        String laSQL = "Select idTaula from Taula ";
+        // Executar la consulta.
+        ResultSet rs = con.createStatement().executeQuery(laSQL);
+ 
+        while (rs.next()) {
+            
+            llistaTaules.add(rs.getInt("idTaula"));
+        }
+        con.close();
+        return llistaTaules;
     }
 }

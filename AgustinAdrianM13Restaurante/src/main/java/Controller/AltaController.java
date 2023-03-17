@@ -6,6 +6,7 @@ package Controller;
 
 import Model.Reserva;
 import com.mycompany.agustinadrianm13restaurante.DB.DaoReserva;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -17,7 +18,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -59,15 +62,29 @@ public class AltaController implements Initializable {
     private TextField txtNomClient;
     @FXML
     private Button btnAfegirReserva;
+    
+    @FXML
+    private Label labelNumeroTelefon;
+    
+    @FXML
+    private TextField txtNumeroTelefon;
 
     /**
      * Initializes the controller class.
      */
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        ObservableList<Integer> opciones = FXCollections.observableArrayList(1, 2, 3, 4, 5);
-    cmbTaula.setItems(opciones);
+        try {
+            // TODO
+         
+            ObservableList<Integer> idTaules = FXCollections.observableArrayList(DaoReserva.llistaTaules());
+            cmbTaula.setItems(idTaules);
+        } catch (SQLException ex) {
+            Logger.getLogger(AltaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+ 
     }    
 
     @FXML
@@ -81,14 +98,26 @@ public class AltaController implements Initializable {
             int npersones = Integer.parseInt(txtNpersonas.getText());
             int taula = Integer.parseInt(cmbTaula.getValue().toString());
             String nom = txtNomClient.getText();
-            System.out.println("data"+date);
-            Reserva res = new Reserva(0,date.toString(),hora,npersones,taula,nom,000);
+            int nTelefon = Integer.parseInt(txtNumeroTelefon.getText());
+            Reserva res = new Reserva(0,date.toString(),hora,npersones,taula,nom,nTelefon);
             DaoReserva.afegirReserva(res);
             Stage stage = (Stage) btnAfegirReserva.getScene().getWindow();
             stage.close();
+            
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Reserva.fxml"));
+            try {
+                Parent root = loader.load();
+            } catch (IOException ex) {
+                Logger.getLogger(AltaController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            ReservaController reservaController = loader.getController();
+            
+          
+
         } catch (SQLException ex) {
             Logger.getLogger(AltaController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     
 }

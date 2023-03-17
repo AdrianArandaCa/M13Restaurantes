@@ -18,6 +18,7 @@
                   <Font name="System Bold" size="45.0" />
                </font>
             </Label>
+            <Button fx:id="btnRefrescar" layoutX="925.0" layoutY="72.0" mnemonicParsing="false" onAction="#btnRefrescarClick" text="Refrescar" />
          </children>
       </Pane>
    </top>
@@ -39,12 +40,13 @@
          <children>
             <TableView fx:id="tableViewReserves" layoutX="15.0" layoutY="14.0" prefHeight="564.0" prefWidth="810.0">
               <columns>
-                <TableColumn fx:id="tableColumnIdReserva" prefWidth="149.0" text="IdReserva" />
-                <TableColumn fx:id="tableColumnDia" prefWidth="135.0" text="Dia" />
-                  <TableColumn fx:id="tableColumnHora" minWidth="0.0" prefWidth="120.0" text="Hora" />
-                  <TableColumn fx:id="tableColumnNpersonas" minWidth="5.0" prefWidth="147.0" text="Nº Personas" />
-                  <TableColumn fx:id="tableColumnIdTaula" minWidth="0.0" prefWidth="125.0" text="IdTaula" />
-                  <TableColumn fx:id="tableColumnNomClient" prefWidth="133.0" text="Nom Client" />
+                <TableColumn fx:id="tableColumnIdReserva" prefWidth="91.0" text="IdReserva" />
+                <TableColumn fx:id="tableColumnDia" prefWidth="106.0" text="Dia" />
+                  <TableColumn fx:id="tableColumnHora" minWidth="0.0" prefWidth="106.0" text="Hora" />
+                  <TableColumn fx:id="tableColumnNpersonas" minWidth="5.0" prefWidth="115.0" text="Nº Personas" />
+                  <TableColumn fx:id="tableColumnIdTaula" minWidth="0.0" prefWidth="128.0" text="IdTaula" />
+                  <TableColumn fx:id="tableColumnNomClient" prefWidth="137.0" text="Nom Client" />
+                  <TableColumn fx:id="tableColumnTelefon" prefWidth="126.0" text="Teléfon" />
               </columns>
             </TableView>
          </children></Pane>
