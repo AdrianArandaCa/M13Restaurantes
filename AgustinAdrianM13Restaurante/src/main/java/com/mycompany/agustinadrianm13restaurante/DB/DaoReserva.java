@@ -4,6 +4,7 @@
  */
 package com.mycompany.agustinadrianm13restaurante.DB;
 
+import Model.Producte;
 import Model.Reserva;
 import Model.Utils;
 import java.sql.Connection;
@@ -150,5 +151,21 @@ public class DaoReserva {
         }
         con.close();
         return llistaTaules;
+    }
+     
+      public static ArrayList<Producte> llistaProductesMenjar() throws SQLException {
+        ArrayList<Producte> llistaProductesMenjar = new ArrayList<Producte>();
+        // Obrim la connexió
+        Connection con = DBConnector.getConnection();
+        String laSQL = "select * from Producte where categoria = 'Menjar'";
+        // Executar la consulta.
+        ResultSet rs = con.createStatement().executeQuery(laSQL);
+ 
+        while (rs.next()) {
+            Producte p = new Producte(rs.getInt("idProducte"),rs.getString("nom"),rs.getDouble("preu"),rs.getString("categoria"));
+            llistaProductesMenjar.add(p);
+        }
+        con.close();
+        return llistaProductesMenjar;
     }
 }

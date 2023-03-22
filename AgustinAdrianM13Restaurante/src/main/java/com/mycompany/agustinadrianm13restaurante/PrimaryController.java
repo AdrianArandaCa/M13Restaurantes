@@ -1,5 +1,6 @@
 package com.mycompany.agustinadrianm13restaurante;
 
+import Controller.ComandaController;
 import Controller.ReservaController;
 import java.io.IOException;
 import javafx.event.ActionEvent;
@@ -28,6 +29,19 @@ public class PrimaryController {
     @FXML
     void clickBtnComandes(ActionEvent event) {
 
+         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Comanda.fxml"));
+            Parent root = loader.load();
+            
+            ComandaController controllerComanda = loader.getController();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.showAndWait();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML

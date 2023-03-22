@@ -12,21 +12,21 @@ public class Producte {
     int idProducte;
     String nom;
     double preu;
-    String img;
+    String categoria;
 
-    public Producte(int codi, String nom, double preu, String img) {
-        this.idProducte = codi;
+    public Producte(int idProducte, String nom, double preu, String categoria) {
+        this.idProducte = idProducte;
         this.nom = nom;
         this.preu = preu;
-        this.img = img;
+        this.categoria = categoria;
     }
 
-    public int getCodi() {
+    public int getIdProducte() {
         return idProducte;
     }
 
-    public void setCodi(int codi) {
-        this.idProducte = codi;
+    public void setIdProducte(int idProducte) {
+        this.idProducte = idProducte;
     }
 
     public String getNom() {
@@ -45,18 +45,19 @@ public class Producte {
         this.preu = preu;
     }
 
-    public String getImg() {
-        return img;
+    public String getCategoria() {
+        return categoria;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
-    @Override
-    public String toString() {
-        return "Producte{" + "codi=" + idProducte + ", nom=" + nom + ", preu=" + preu + ", img=" + img + '}';
-    }
+   
+
+   
+
+    
     
     
 }
