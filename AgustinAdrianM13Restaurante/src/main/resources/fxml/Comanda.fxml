@@ -5,7 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
@@ -26,32 +27,53 @@
    <left>
       <Pane prefHeight="597.0" prefWidth="302.0" styleClass="panel" stylesheets="@../com/mycompany/agustinadrianm13restaurante/estils.css" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="labelPreuTotal" layoutX="32.0" layoutY="491.0" prefHeight="57.0" prefWidth="238.0" />
-            <TextArea fx:id="labelPedido" layoutX="12.0" layoutY="64.0" prefHeight="411.0" prefWidth="279.0" />
-            <ComboBox fx:id="cmbTaula" layoutX="20.0" layoutY="14.0" onAction="#cmbTaulaSelected" prefWidth="150.0" />
+            <ComboBox fx:id="cmbTaula" layoutX="23.0" layoutY="51.0" onAction="#cmbTaulaSelected" prefWidth="150.0" />
+            <Label layoutX="23.0" layoutY="26.0" text="Numero de Taula" />
+            <Button fx:id="btnPagarComanda" layoutX="64.0" layoutY="548.0" mnemonicParsing="false" onAction="#btnPagarComandaClick" prefHeight="22.0" prefWidth="143.0" text="PAGAR" />
+            <TableView fx:id="tableViewComandaTaula" layoutX="14.0" layoutY="88.0" prefHeight="331.0" prefWidth="277.0">
+              <columns>
+                <TableColumn fx:id="tableColumnComandaTaulaNom" prefWidth="182.0" text="Nom" />
+                <TableColumn fx:id="tableColumnComandaTaulaPreu" prefWidth="93.0" text="Preu" />
+              </columns>
+            </TableView>
+            <Button fx:id="btnAfegirProducteComanda" layoutX="220.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnAfegirProducteComandaClick" text="Afegir" />
+            <Button fx:id="btnEliminarProducteComanda" layoutX="212.0" layoutY="51.0" mnemonicParsing="false" onAction="#btnEliminarProducteComandaClick" text="Eliminar" />
+            <Label fx:id="labelTotalAPagar" alignment="CENTER" layoutX="23.0" layoutY="463.0" prefHeight="43.0" prefWidth="247.0" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </left>
    <center>
       <TabPane prefHeight="568.0" prefWidth="663.0" stylesheets="@../com/mycompany/agustinadrianm13restaurante/estils.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab fx:id="tabMenjar" text="Menjar">
+          <Tab fx:id="tabMenjar" onSelectionChanged="#tabMenjarOnSelectionChanged" text="Menjar">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="btnUpIzq" layoutX="55.0" layoutY="41.0" mnemonicParsing="false" onAction="#btnUpIzqClick" prefHeight="90.0" prefWidth="140.0" textAlignment="CENTER" />
-                        <Button fx:id="btnUpCenter" layoutX="293.0" layoutY="41.0" mnemonicParsing="false" onAction="#btnUpCenter" prefHeight="90.0" prefWidth="140.0" textAlignment="CENTER" />
-                        <Button fx:id="btnUpDer" layoutX="536.0" layoutY="41.0" mnemonicParsing="false" onAction="#btnUpDerClick" prefHeight="90.0" prefWidth="140.0" textAlignment="CENTER" />
-                        <Button fx:id="btnDownIzq" layoutX="55.0" layoutY="223.0" mnemonicParsing="false" onAction="#btnDownIzqClick" prefHeight="90.0" prefWidth="140.0" textAlignment="CENTER" />
-                        <Button fx:id="btnDownCenter" layoutX="293.0" layoutY="223.0" mnemonicParsing="false" onAction="#btnDownCenterClick" prefHeight="90.0" prefWidth="140.0" textAlignment="CENTER" />
-                        <Button fx:id="btnDownDer" layoutX="536.0" layoutY="223.0" mnemonicParsing="false" onAction="#btnDownDerClick" prefHeight="90.0" prefWidth="140.0" textAlignment="CENTER" />
+                        <TableView fx:id="tableViewMenjar" layoutX="14.0" layoutY="8.0" prefHeight="532.0" prefWidth="697.0">
+                          <columns>
+                            <TableColumn fx:id="tableColumnNom" prefWidth="359.0" text="Nom" />
+                            <TableColumn fx:id="tableColumnPreu" minWidth="0.0" prefWidth="336.0" text="Preu" />
+                          </columns>
+                        </TableView>
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab fx:id="tabBeguda" text="Beguda">
+          <Tab fx:id="tabBeguda" onSelectionChanged="#tabBegudaOnSelectionChanged" text="Beguda">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableViewBeguda" layoutX="14.0" layoutY="6.0" prefHeight="532.0" prefWidth="689.0">
+                           <columns>
+                              <TableColumn fx:id="tableColumnNomBeguda" editable="false" prefWidth="359.0" text="Nom" />
+                              <TableColumn fx:id="tableColumnPreuBeguda" editable="false" minWidth="0.0" prefWidth="336.0" text="Preu" />
+                           </columns>
+                        </TableView>
+                     </children></AnchorPane>
             </content>
           </Tab>
         </tabs>

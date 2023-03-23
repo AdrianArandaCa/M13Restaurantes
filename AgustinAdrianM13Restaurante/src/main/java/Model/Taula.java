@@ -18,7 +18,10 @@ public class Taula {
         this.idTaula = idTaula;
         this.comanda = comanda;
     }
-
+    public Taula(int idTaula) {
+        this.idTaula = idTaula;
+        
+    }
     public int getIdTaula() {
         return idTaula;
     }

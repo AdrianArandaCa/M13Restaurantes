@@ -4,8 +4,10 @@
  */
 package Controller;
 
+import Model.Comanda;
 import Model.Producte;
 import Model.Reserva;
+import Model.Taula;
 import com.mycompany.agustinadrianm13restaurante.DB.DaoReserva;
 import java.net.URL;
 import java.sql.SQLException;
@@ -16,21 +18,35 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  *
  * @author agustincintas
  */
-public class ComandaController implements Initializable{
-    
-     @FXML
+public class ComandaController implements Initializable {
+
+    @FXML
+    private Button btnAfegirProducteComanda;
+
+    @FXML
+    private Button btnEliminarProducteComanda;
+
+    @FXML
+    private Button btnPagarComanda;
+
+    @FXML
     private Button btnAlta;
 
     @FXML
@@ -47,72 +63,100 @@ public class ComandaController implements Initializable{
 
     @FXML
     private Label titolComanda;
-    
-    @FXML
-    private Button btnDownCenter;
 
+    
     @FXML
-    private Button btnDownDer;
+    private Label labelTotalAPagar;
 
-    @FXML
-    private Button btnDownIzq;
-    
-     @FXML
-    private Button btnUpCenter;
-
-    @FXML
-    private Button btnUpDer;
-
-    @FXML
-    private Button btnUpIzq;
-    
-    @FXML
-    private TextArea labelPedido;
-    
-    @FXML
-    private Label labelPreuTotal;
-    
     @FXML
     private ComboBox<Integer> cmbTaula;
 
+    @FXML
+    private TableColumn<Producte, String> tableColumnNom;
+
+    @FXML
+    private TableColumn<Producte, Double> tableColumnPreu;
+
+    @FXML
+    private TableColumn<Producte, String> tableColumnNomBeguda;
+
+    @FXML
+    private TableColumn<Producte, Double> tableColumnPreuBeguda;
+
+    @FXML
+    private TableColumn<Producte, String> tableColumnComandaTaulaNom;
+
+    @FXML
+    private TableColumn<Producte, Double> tableColumnComandaTaulaPreu;
+
+    @FXML
+    private TableView<Producte> tableViewMenjar;
+
+    @FXML
+    private TableView<Producte> tableViewBeguda;
+
+    @FXML
+    private TableView<Producte> tableViewComandaTaula;
+
     static double numTotal = 0.0;
+    ObservableList<Producte> productesMenjar;
+    ObservableList<Producte> productesBeguda;
+    ObservableList<Producte> productesComanda;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-   
-        labelPedido.setEditable(false);
-        
-         try {
-             ObservableList<Integer> idTaules = FXCollections.observableArrayList(DaoReserva.llistaTaules());
+        try {
+            ObservableList<Integer> idTaules = FXCollections.observableArrayList(DaoReserva.llistaTaules());
             cmbTaula.setItems(idTaules);
-             ArrayList<Producte> productesMenjar = DaoReserva.llistaProductesMenjar();
-             ArrayList<Button> botones = new ArrayList<Button>();
-             botones.add(btnDownCenter);
-             botones.add(btnDownDer);
-             botones.add(btnDownIzq);
-             botones.add(btnUpCenter);
-             botones.add(btnUpDer);
-             botones.add(btnUpIzq);
-               
-                     
-                     for (int i = 0; i < productesMenjar.size(); i++) {
-                         botones.get(i).setText(productesMenjar.get(i).getNom()+"\n"+productesMenjar.get(i).getPreu()+"€");
-                         
-                         
-                         
-                     }
-                 
-                 
-                 
-             
-         } catch (SQLException ex) {
-             Logger.getLogger(ComandaController.class.getName()).log(Level.SEVERE, null, ex);
-         }
-        
-        
-       
+            
+
+            tableColumnNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            tableColumnPreu.setCellValueFactory(new PropertyValueFactory<>("preu"));
+            tableColumnNomBeguda.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            tableColumnPreuBeguda.setCellValueFactory(new PropertyValueFactory<>("preu"));
+            tableColumnComandaTaulaNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            tableColumnComandaTaulaPreu.setCellValueFactory(new PropertyValueFactory<>("preu"));
+
+            this.carregarTaula();
+        } catch (SQLException ex) {
+            Logger.getLogger(ComandaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
-    
+
+    public void carregarTaula() {
+
+        productesMenjar = FXCollections.observableArrayList();
+        productesBeguda = FXCollections.observableArrayList();
+        // Agafar tots els registres de la taula
+        /*int numReserva, int t, String nomClient, int telf, String data, int quantPersones,String hora*/
+        try {
+            ArrayList<Producte> productosMenjarDAO = DaoReserva.llistaProductesMenjar();
+            ArrayList<Producte> productosBegudaDAO = DaoReserva.llistaProductesBeguda();
+
+            // Omplim l'observableList
+            for (Producte pro : productosMenjarDAO) {
+
+                Producte p = new Producte(pro.getIdProducte(), pro.getNom(), pro.getPreu(), pro.getCategoria());
+
+                productesMenjar.add(p);
+            }
+            for (Producte pro : productosBegudaDAO) {
+
+                Producte p = new Producte(pro.getIdProducte(), pro.getNom(), pro.getPreu(), pro.getCategoria());
+
+                productesBeguda.add(p);
+            }
+
+            //Assignar l'observableList a la taula
+            tableViewMenjar.setItems(productesMenjar);
+            tableViewBeguda.setItems(productesBeguda);
+
+        } catch (SQLException ex) {
+            //Logger.getLogger(SecondaryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     @FXML
     void btnAltaClick(ActionEvent event) {
 
@@ -127,59 +171,141 @@ public class ComandaController implements Initializable{
     void btnModificacioClick(ActionEvent event) {
 
     }
-    
-      @FXML
-    void btnDownCenterClick(ActionEvent event) {
-        
-            this.labelPedido.setText(this.labelPedido.getText()+"\n\n"+this.btnDownCenter.getText());
-            String substring = this.btnDownCenter.getText().substring(this.btnDownCenter.getText().length()-6,this.btnDownCenter.getText().length()-1);
-            numTotal += Double.parseDouble(substring);
-            
-            this.labelPreuTotal.setText("Preu total: "+String.valueOf(numTotal));
-    }
 
-    @FXML
-    void btnDownDerClick(ActionEvent event) {
-        if(this.cmbTaula.getValue() == null) {
-            System.out.println("SELECCIONA UNA HIJO DE PUTA");
-        }else{
-             this.labelPedido.setText(this.labelPedido.getText()+"\n\n"+this.btnDownDer.getText());
-            String substring = this.btnDownDer.getText().substring(this.btnDownDer.getText().length()-6,this.btnDownDer.getText().length()-1);
-            numTotal += Double.parseDouble(substring);
-            
-            this.labelPreuTotal.setText("Preu total: "+String.valueOf(numTotal));
-        }
-        
-       
-    }
-
-    @FXML
-    void btnDownIzqClick(ActionEvent event) {
-
-    }
-    
-    @FXML
-    void btnUpCenter(ActionEvent event) {
-
-    }
-
-    @FXML
-    void btnUpDerClick(ActionEvent event) {
-
-    }
-
-    @FXML
-    void btnUpIzqClick(ActionEvent event) {
-
-    }
-    
     @FXML
     void cmbTaulaSelected(ActionEvent event) {
+           double total = 0;
+        try {
+            int numTaula = this.cmbTaula.getValue();
+            
+            carregarTaulaComanda(numTaula);
+            
+            ArrayList<Double> totalApagar = DaoReserva.getPreuTaula(numTaula);
+            
+            for(double num : totalApagar) {
+                total +=num;
+            }
+            this.labelTotalAPagar.setText("TOTAL a pagar: "+total+"€");
+        } catch (SQLException ex) {
+            Logger.getLogger(ComandaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        int numTaula = this.cmbTaula.getValue();
-        System.out.println(numTaula);
+
+    }
+    
+
+    @FXML
+    void btnPagarComandaClick(ActionEvent event) {
+    }
+
+    @FXML
+    void btnAfegirProducteComandaClick(ActionEvent event) {
+        System.out.println("KLK HAS CLICADO");
+        int numTaula = cmbTaula.getValue();
+        double total = 0;
+        
+        Producte productesMenjar = tableViewMenjar.getSelectionModel().getSelectedItem();
+        Producte productesBeguda = tableViewBeguda.getSelectionModel().getSelectedItem();
+
+        if (this.cmbTaula.getValue() == null) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Información");
+            alert.setHeaderText(null);
+            alert.setContentText("Selecciona la mesa y un elemento de la tabla a añadir");
+            alert.showAndWait();
+
+        } else {
+
+            Taula taula = new Taula(cmbTaula.getValue());
+            Comanda comandaInsertar = new Comanda(0, taula);
+            try {
+                DaoReserva.afegirComanda(comandaInsertar);
+                int nTaula = DaoReserva.getNumeroTaula(taula.getIdTaula());
+                if (productesMenjar != null) {
+               
+                    DaoReserva.afegirLineaComanda(nTaula, productesMenjar);
+                }
+                if (productesBeguda != null) {
+                    
+                    DaoReserva.afegirLineaComanda(nTaula, productesBeguda);
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(ComandaController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            carregarTaulaComanda(numTaula);
+            
+            
+            try {
+               ArrayList<Double> totalApagar = DaoReserva.getPreuTaula(numTaula);
+                for(double num : totalApagar) {
+                total +=num;
+            }
+            this.labelTotalAPagar.setText("TOTAL a pagar: "+total+"€");
+            } catch (SQLException ex) {
+                Logger.getLogger(ComandaController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+        }
+
+    }
+    
+
+    @FXML
+    void btnEliminarProducteComandaClick(ActionEvent event) {
+        double total = 0;
+        try {
+            Producte productesMenjar = tableViewComandaTaula.getSelectionModel().getSelectedItem();
+            int numTaula = cmbTaula.getValue();
+            int lineaComanda = DaoReserva.getNumeroLineaComanda(productesMenjar.getIdProducte());
+            
+            DaoReserva.esborrarLineaComanda(lineaComanda);
+            carregarTaulaComanda(numTaula);
+            
+            ArrayList<Double> totalApagar = DaoReserva.getPreuTaula(numTaula);
+            
+            for(double num : totalApagar) {
+                total +=num;
+            }
+            this.labelTotalAPagar.setText("TOTAL a pagar: "+total+"€");
+        } catch (SQLException ex) {
+            Logger.getLogger(ComandaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+
+    }
+    
+    public void carregarTaulaComanda(int numTaula) {
+         try {
+                productesComanda = FXCollections.observableArrayList();
+                ArrayList<Producte> productesComanda1 = DaoReserva.llistaProductesComanda(numTaula);
+
+                for (Producte pro : productesComanda1) {
+
+                    Producte p = new Producte(pro.getIdProducte(), pro.getNom(), pro.getPreu(), pro.getCategoria());
+
+                    productesComanda.add(p);
+                }
+                tableViewComandaTaula.setItems(productesComanda);
+            } catch (SQLException ex) {
+                Logger.getLogger(ComandaController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    
+    @FXML
+    void tabBegudaOnSelectionChanged(Event event) {
+        tableViewMenjar.getSelectionModel().clearSelection();
 
     }
 
-    
+    @FXML
+    void tabMenjarOnSelectionChanged(Event event) {
+        if(tableViewBeguda != null) {
+            tableViewBeguda.getSelectionModel().clearSelection();
+        }
+        
+    }
+
 }
