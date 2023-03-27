@@ -3,6 +3,7 @@ module com.mycompany.agustinadrianm13restaurante {
     requires javafx.fxml;
     requires java.base;
     requires java.sql;
+    requires itextpdf;
 
     opens com.mycompany.agustinadrianm13restaurante to javafx.fxml;
     exports com.mycompany.agustinadrianm13restaurante;
@@ -12,4 +13,5 @@ module com.mycompany.agustinadrianm13restaurante {
     
      opens Model to javafx.fxml;
      exports Model;
+     
 }

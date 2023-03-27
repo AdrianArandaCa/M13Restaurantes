@@ -339,4 +339,28 @@ public class DaoReserva {
         con.close();
         return llista;
     }
+
+    public static ArrayList<?> getAllProductsTaula(int idTaula) throws SQLException {
+        ArrayList<Object> llista = new ArrayList<>();
+        // Obrim la connexió
+        Connection con = DBConnector.getConnection();
+        String laSQL = "SELECT nom,preu FROM Restaurant.Comanda co\n"
+                + "inner join Restaurant.Comanda_has_Producte coh on co.idComanda=coh.Comanda_idComanda\n"
+                + "inner join Restaurant.Producte pro on coh.Producte_idProducte = pro.idProducte\n"
+                + "where co.idTaula = ?";
+
+        // Executar la consulta.
+        PreparedStatement prestat = con.prepareStatement(laSQL);
+        prestat.setInt(1, idTaula);
+        ResultSet rs = prestat.executeQuery();
+
+        while (rs.next()) {
+            String nom = rs.getString("nom");
+            double num = rs.getDouble("preu");
+            llista.add(nom);
+            llista.add(num);
+        }
+        con.close();
+        return llista;
+    }
 }

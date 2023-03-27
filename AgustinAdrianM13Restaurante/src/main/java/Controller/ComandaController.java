@@ -8,7 +8,9 @@ import Model.Comanda;
 import Model.Producte;
 import Model.Reserva;
 import Model.Taula;
+import com.itextpdf.text.Chunk;
 import com.mycompany.agustinadrianm13restaurante.DB.DaoReserva;
+import java.io.FileOutputStream;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,12 +32,23 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.PdfPTable;
+import java.io.FileNotFoundException;
 
 /**
  *
  * @author agustincintas
  */
 public class ComandaController implements Initializable {
+
+    double totalApagarStatic = 0;
 
     @FXML
     private Button btnAfegirProducteComanda;
@@ -64,7 +77,6 @@ public class ComandaController implements Initializable {
     @FXML
     private Label titolComanda;
 
-    
     @FXML
     private Label labelTotalAPagar;
 
@@ -108,7 +120,6 @@ public class ComandaController implements Initializable {
         try {
             ObservableList<Integer> idTaules = FXCollections.observableArrayList(DaoReserva.llistaTaules());
             cmbTaula.setItems(idTaules);
-            
 
             tableColumnNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
             tableColumnPreu.setCellValueFactory(new PropertyValueFactory<>("preu"));
@@ -174,28 +185,68 @@ public class ComandaController implements Initializable {
 
     @FXML
     void cmbTaulaSelected(ActionEvent event) {
-           double total = 0;
+        double total = 0;
         try {
             int numTaula = this.cmbTaula.getValue();
-            
+
             carregarTaulaComanda(numTaula);
-            
+
             ArrayList<Double> totalApagar = DaoReserva.getPreuTaula(numTaula);
-            
-            for(double num : totalApagar) {
-                total +=num;
+
+            for (double num : totalApagar) {
+                total += num;
             }
-            this.labelTotalAPagar.setText("TOTAL a pagar: "+total+"€");
+            totalApagarStatic = total;
+            this.labelTotalAPagar.setText("TOTAL a pagar: " + total + "€");
         } catch (SQLException ex) {
             Logger.getLogger(ComandaController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
 
     }
-    
 
     @FXML
-    void btnPagarComandaClick(ActionEvent event) {
+    void btnPagarComandaClick(ActionEvent event) throws SQLException {
+
+        //Document documento = new Document();
+        Document document = new Document();
+
+        try {
+            // Crear un objeto PDFWriter para escribir el PDF
+            PdfWriter.getInstance(document, new FileOutputStream("totalApagar.pdf"));
+
+            // Abrir el documento para escribir en él
+            document.open();
+
+            // Crear una tabla con el mismo número de columnas que la tabla en la interfaz de usuario
+            PdfPTable table = new PdfPTable(tableViewComandaTaula.getColumns().size());
+            Paragraph paragraph = new Paragraph("FACTURA DE LA TAULA: " + this.cmbTaula.getValue(),new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD));
+            paragraph.setAlignment(Element.ALIGN_CENTER);
+            document.add(paragraph);
+            document.add(Chunk.NEWLINE);
+            Paragraph paragraph1 = new Paragraph("TOTAL A PAGAR: " + totalApagarStatic + "€", new Font(Font.FontFamily.TIMES_ROMAN, 15, Font.BOLD));
+            // document.addHeader();
+            table.addCell("Nombre del Producte");
+
+            table.addCell("Preu del Producte");
+
+            ArrayList<Object> productes = (ArrayList<Object>) DaoReserva.getAllProductsTaula(this.cmbTaula.getValue());
+
+            for (int i = 0; i < productes.size(); i++) {
+                table.addCell(productes.get(i).toString());
+            }
+
+            document.add(table);
+            document.add(Chunk.NEWLINE);
+            paragraph1.setAlignment(Element.ALIGN_CENTER);
+            document.add(paragraph1);
+            System.out.println("PDF GENERATE");
+
+        } catch (DocumentException | FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            // Cerrar el documento
+            document.close();
+        }
     }
 
     @FXML
@@ -203,7 +254,7 @@ public class ComandaController implements Initializable {
         System.out.println("KLK HAS CLICADO");
         int numTaula = cmbTaula.getValue();
         double total = 0;
-        
+
         Producte productesMenjar = tableViewMenjar.getSelectionModel().getSelectedItem();
         Producte productesBeguda = tableViewBeguda.getSelectionModel().getSelectedItem();
 
@@ -222,11 +273,11 @@ public class ComandaController implements Initializable {
                 DaoReserva.afegirComanda(comandaInsertar);
                 int nTaula = DaoReserva.getNumeroTaula(taula.getIdTaula());
                 if (productesMenjar != null) {
-               
+
                     DaoReserva.afegirLineaComanda(nTaula, productesMenjar);
                 }
                 if (productesBeguda != null) {
-                    
+
                     DaoReserva.afegirLineaComanda(nTaula, productesBeguda);
                 }
 
@@ -234,23 +285,20 @@ public class ComandaController implements Initializable {
                 Logger.getLogger(ComandaController.class.getName()).log(Level.SEVERE, null, ex);
             }
             carregarTaulaComanda(numTaula);
-            
-            
+
             try {
-               ArrayList<Double> totalApagar = DaoReserva.getPreuTaula(numTaula);
-                for(double num : totalApagar) {
-                total +=num;
-            }
-            this.labelTotalAPagar.setText("TOTAL a pagar: "+total+"€");
+                ArrayList<Double> totalApagar = DaoReserva.getPreuTaula(numTaula);
+                for (double num : totalApagar) {
+                    total += num;
+                }
+                this.labelTotalAPagar.setText("TOTAL a pagar: " + total + "€");
             } catch (SQLException ex) {
                 Logger.getLogger(ComandaController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            
+
         }
 
     }
-    
 
     @FXML
     void btnEliminarProducteComandaClick(ActionEvent event) {
@@ -259,41 +307,39 @@ public class ComandaController implements Initializable {
             Producte productesMenjar = tableViewComandaTaula.getSelectionModel().getSelectedItem();
             int numTaula = cmbTaula.getValue();
             int lineaComanda = DaoReserva.getNumeroLineaComanda(productesMenjar.getIdProducte());
-            
+
             DaoReserva.esborrarLineaComanda(lineaComanda);
             carregarTaulaComanda(numTaula);
-            
+
             ArrayList<Double> totalApagar = DaoReserva.getPreuTaula(numTaula);
-            
-            for(double num : totalApagar) {
-                total +=num;
+
+            for (double num : totalApagar) {
+                total += num;
             }
-            this.labelTotalAPagar.setText("TOTAL a pagar: "+total+"€");
+            this.labelTotalAPagar.setText("TOTAL a pagar: " + total + "€");
         } catch (SQLException ex) {
             Logger.getLogger(ComandaController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
 
     }
-    
+
     public void carregarTaulaComanda(int numTaula) {
-         try {
-                productesComanda = FXCollections.observableArrayList();
-                ArrayList<Producte> productesComanda1 = DaoReserva.llistaProductesComanda(numTaula);
+        try {
+            productesComanda = FXCollections.observableArrayList();
+            ArrayList<Producte> productesComanda1 = DaoReserva.llistaProductesComanda(numTaula);
 
-                for (Producte pro : productesComanda1) {
+            for (Producte pro : productesComanda1) {
 
-                    Producte p = new Producte(pro.getIdProducte(), pro.getNom(), pro.getPreu(), pro.getCategoria());
+                Producte p = new Producte(pro.getIdProducte(), pro.getNom(), pro.getPreu(), pro.getCategoria());
 
-                    productesComanda.add(p);
-                }
-                tableViewComandaTaula.setItems(productesComanda);
-            } catch (SQLException ex) {
-                Logger.getLogger(ComandaController.class.getName()).log(Level.SEVERE, null, ex);
+                productesComanda.add(p);
             }
+            tableViewComandaTaula.setItems(productesComanda);
+        } catch (SQLException ex) {
+            Logger.getLogger(ComandaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+
     @FXML
     void tabBegudaOnSelectionChanged(Event event) {
         tableViewMenjar.getSelectionModel().clearSelection();
@@ -302,10 +348,10 @@ public class ComandaController implements Initializable {
 
     @FXML
     void tabMenjarOnSelectionChanged(Event event) {
-        if(tableViewBeguda != null) {
+        if (tableViewBeguda != null) {
             tableViewBeguda.getSelectionModel().clearSelection();
         }
-        
+
     }
 
 }
