@@ -197,7 +197,8 @@ public class ComandaController implements Initializable {
                 total += num;
             }
             totalApagarStatic = total;
-            this.labelTotalAPagar.setText("TOTAL a pagar: " + total + "€");
+            this.labelTotalAPagar.setText("TOTAL a pagar: " + totalApagarStatic + "€");
+            System.out.println("total a pagar : " + totalApagarStatic);
         } catch (SQLException ex) {
             Logger.getLogger(ComandaController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -209,7 +210,7 @@ public class ComandaController implements Initializable {
 
         //Document documento = new Document();
         Document document = new Document();
-
+        double total = 0;
         try {
             // Crear un objeto PDFWriter para escribir el PDF
             PdfWriter.getInstance(document, new FileOutputStream("totalApagar.pdf"));
@@ -219,12 +220,17 @@ public class ComandaController implements Initializable {
 
             // Crear una tabla con el mismo número de columnas que la tabla en la interfaz de usuario
             PdfPTable table = new PdfPTable(tableViewComandaTaula.getColumns().size());
-            Paragraph paragraph = new Paragraph("FACTURA DE LA TAULA: " + this.cmbTaula.getValue(),new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD));
+            Paragraph paragraph = new Paragraph("Factura de la taula " + this.cmbTaula.getValue() + " a nom de : " + DaoReserva.getNomClient(this.cmbTaula.getValue()), new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD));
             paragraph.setAlignment(Element.ALIGN_CENTER);
             document.add(paragraph);
             document.add(Chunk.NEWLINE);
-            Paragraph paragraph1 = new Paragraph("TOTAL A PAGAR: " + totalApagarStatic + "€", new Font(Font.FontFamily.TIMES_ROMAN, 15, Font.BOLD));
+            ArrayList<Double> totalApagar = DaoReserva.getPreuTaula(this.cmbTaula.getValue());
+            for (double num : totalApagar) {
+                total += num;
+            }
+            Paragraph paragraph1 = new Paragraph("TOTAL DE LA TAULA: " + total + "€", new Font(Font.FontFamily.TIMES_ROMAN, 15, Font.BOLD));
             // document.addHeader();
+             Paragraph paragraph2 = new Paragraph("TOTAL A PAGAR AMB EL 21% IVA: " + (total*1.21) + "€", new Font(Font.FontFamily.TIMES_ROMAN, 15, Font.BOLD));
             table.addCell("Nombre del Producte");
 
             table.addCell("Preu del Producte");
@@ -239,8 +245,20 @@ public class ComandaController implements Initializable {
             document.add(Chunk.NEWLINE);
             paragraph1.setAlignment(Element.ALIGN_CENTER);
             document.add(paragraph1);
-            System.out.println("PDF GENERATE");
+            document.add(Chunk.NEWLINE);
+            paragraph2.setAlignment(Element.ALIGN_CENTER);
+            document.add(paragraph2);
+            
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Información");
+            alert.setHeaderText(null);
+            alert.setContentText("Factura de la taula " + this.cmbTaula.getValue() + " generada.");
+            alert.showAndWait();
+           
+            int num = DaoReserva.esborrarRegistresReserva(this.cmbTaula.getValue());
+            carregarTaulaComanda(this.cmbTaula.getValue());
 
+            this.labelTotalAPagar.setText("TOTAL a pagar: " + 0.0 + "€");
         } catch (DocumentException | FileNotFoundException e) {
             e.printStackTrace();
         } finally {

@@ -363,4 +363,69 @@ public class DaoReserva {
         con.close();
         return llista;
     }
+
+    public static String getNomClient(int idTaula) throws SQLException {
+        String nom = "";
+        // Obrim la connexió
+        Connection con = DBConnector.getConnection();
+        String laSQL = "SELECT nomclient FROM Restaurant.Reserva where idTaula = ?";
+
+        // Executar la consulta.
+        PreparedStatement prestat = con.prepareStatement(laSQL);
+        prestat.setInt(1, idTaula);
+        ResultSet rs = prestat.executeQuery();
+
+        while (rs.next()) {
+            nom = rs.getString("nomclient");
+
+        }
+        con.close();
+        return nom;
+    }
+
+    public static int esborrarRegistresReserva(int idTaula) throws SQLException {
+        // Obrir connexió
+        Connection con = DBConnector.getConnection();
+        int idComanda = 0 ;
+        String laSQLReserva = "DELETE FROM Restaurant.Reserva where idTaula = ?";
+        PreparedStatement prestatReserva = con.prepareStatement(laSQLReserva);
+        prestatReserva.setInt(1, idTaula);
+
+        //Executar la consulta preparada
+        int retornReserva = prestatReserva.executeUpdate();
+        String sqlIdComanda = "SELECT ch.Comanda_idComanda FROM Restaurant.Comanda_has_Producte  ch\n"
+                + "inner join Restaurant.Comanda co on co.idComanda = ch.Comanda_idComanda where co.idTaula = ?\n"
+                + "group by ch.Comanda_idComanda";
+        
+         PreparedStatement prestatIdComanda = con.prepareStatement(sqlIdComanda);
+        prestatIdComanda.setInt(1, idTaula);
+        ResultSet rs = prestatIdComanda.executeQuery();
+
+        while (rs.next()) {
+            idComanda = rs.getInt("Comanda_idComanda");
+
+        }
+
+        //Preparar la SQL
+        String laSQL = "DELETE FROM Restaurant.Comanda_has_Producte where Comanda_idComanda = ?";
+        PreparedStatement prestatComandaProducte = con.prepareStatement(laSQL);
+        prestatComandaProducte.setInt(1, idComanda);
+
+        //Executar la consulta preparada
+        int retorn = prestatComandaProducte.executeUpdate();
+
+        String laSQLComanda = "DELETE FROM Restaurant.Comanda where idTaula = ?";
+        PreparedStatement prestatComanda = con.prepareStatement(laSQLComanda);
+        prestatComanda.setInt(1, idTaula);
+
+        //Executar la consulta preparada
+        int retornComanda = prestatComanda.executeUpdate();
+
+        int sumaRetorn = retornReserva + retorn + retornComanda + idComanda;
+
+        //Tancar la connexió
+        con.close();
+        return sumaRetorn;
+    }
+
 }
